@@ -1,0 +1,14 @@
+<h2>Available Ambulances</h2>
+<form method="GET">
+    <input type="text" name="location" placeholder="Enter location">
+    <button type="submit">Filter</button>
+</form>
+
+<ul>
+    {% for ambulance in ambulances %}
+        <li>
+            {{ ambulance.vehicle_number }} - {{ ambulance.driver_name }} ({{ ambulance.location }})
+            <a href="{% url 'book_ambulance' ambulance.id %}">Book Ambulance</a>
+        </li>
+    {% endfor %}
+</ul>

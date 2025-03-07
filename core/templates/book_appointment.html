@@ -1,0 +1,126 @@
+
+
+
+<style>
+    /* General Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    padding: 20px;
+}
+
+/* Title Styling */
+.appointment-title {
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Back to Dashboard Button */
+.btn-dashboard {
+    display: inline-block;
+    padding: 12px 24px;
+    margin-bottom: 20px; /* Space between the button and the form */
+    background-color: #6c757d;
+    color: #fff;
+    font-size: 1rem;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-dashboard:hover {
+    background-color: #5a6268;
+}
+
+/* Form Container */
+.appointment-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Group */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+/* Input Fields */
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #007BFF;
+}
+
+/* Button Styling */
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+    background-color: #0056b3;
+}
+
+/* Adding margin to the form's submit button */
+button[type="submit"] {
+    margin-top: 20px;
+}
+
+</style>
+
+<h2 class="appointment-title">Book an Appointment with Dr. {{ doctor.user.username }} at {{ hospital.name }}</h2>
+
+<!-- Back to Dashboard Button -->
+<a href="{% url 'dashboard' %}" class="btn-dashboard">Back to Dashboard</a>
+
+<form method="POST" class="appointment-form">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="date" class="form-label">Select Date</label>
+        {{ form.date }}
+    </div>
+
+    <div class="form-group">
+        <label for="time" class="form-label">Select Time</label>
+        {{ form.time }}
+    </div>
+
+    <div class="form-group">
+        <label for="consultation_type" class="form-label">Consultation Type</label>
+        {{ form.consultation_type }}
+    </div>
+
+    <div class="form-group">
+        <label for="message" class="form-label">Message</label>
+        {{ form.message }}
+    </div>
+
+    <button type="submit" class="btn-submit">Book Appointment</button>
+</form>

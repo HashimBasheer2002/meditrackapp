@@ -1,0 +1,11 @@
+
+<h2>Doctors in this Hospital</h2>
+<ul>
+    {% for doctor in doctors %}
+        <li>
+            <h3>{{ doctor.user.username }}</h3>
+            <p>{{ doctor.specialization.name }}</p>
+            <a href="{% url 'book_appointment' hospital_id=hospital_id doctor_id=doctor.id %}">Book Appointment</a>  <!-- Redirect to booking form -->
+        </li>
+    {% endfor %}
+</ul>

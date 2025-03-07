@@ -1,0 +1,33 @@
+<h1>All Hospitals</h1>
+
+<table border="1">
+    <tr>
+        <th>Hospital Name</th>
+        <th>Location</th>
+        <th>Action</th>
+    </tr>
+    {% for hospital in hospitals %}
+    <tr>
+        <td>{{ hospital.name }}</td>
+        <td>{{ hospital.location }}</td>
+        <td>
+            {% if hospital in affiliated_hospitals %}
+                ✅ Already Affiliated
+            {% elif hospital in pending_requests %}
+                ⏳ Pending Request
+            {% else %}
+                <form action="{% url 'send_affiliation_request' hospital.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit">Send Affiliation Request</button>
+                </form>
+            {% endif %}
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="3">No hospitals found.</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<a href="{% url 'hospital_dashboard' %}">🔙 Back to Dashboard</a>

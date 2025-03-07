@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Your Payment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        p {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        #razorpay-form {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .back-button {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            text-align: center;
+            background-color: #007bff; /* Bootstrap primary color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+
+        @media (max-width: 600px) {
+            h2 {
+                font-size: 24px;
+            }
+
+            .back-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h2>Complete Your Payment</h2>
+    <p>Amount to Pay: ₹{{ amount_display|floatformat:2 }}</p>
+
+    <form id="razorpay-form">
+        <script src="https://checkout.razorpay.com/v1/checkout.js"
+            data-key="{{ razorpay_key }}"
+            data-amount="{{ amount }}"
+            data-currency="INR"
+            data-order_id="{{ order_id }}"
+            data-buttontext="Pay Now"
+            data-name="Hospital System"
+            data-description="Appointment Fee Payment"
+            data-theme.color="#3399cc">
+        </script>
+    </form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var options = {
+                "key": "{{ razorpay_key }}",
+                "amount": "{{ amount }}",
+                "currency": "INR",
+                "order_id": "{{ order_id }}",
+                "handler": function (response) {
+                    // Redirect to payment success page after payment
+                    window.location.href = "{% url 'payment_success' %}";
+                },
+                "prefill": {
+                    "name": "{{ request.user.first_name }}",
+                    "email": "{{ request.user.email }}"
+                },
+                "theme": {
+                    "color": "#3399cc"
+                }
+            };
+
+            var rzp1 = new Razorpay(options);
+
+            // Open Razorpay payment popup on form submit
+            document.getElementById("razorpay-form").addEventListener("submit", function (e) {
+                e.preventDefault();
+                rzp1.open();
+            });
+        });
+    </script>
+
+    <a href="{% url 'dashboard' %}" class="back-button">Back to Dashboard</a>
+</body>
+</html>
+{% endblock %}

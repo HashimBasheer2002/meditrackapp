@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block content %}
+<body>
+<style>
+    /* Chat Container */
+.chat-container {
+    max-width: 600px;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Chat Title */
+.chat-title {
+    font-size: 26px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Chat List */
+.chat-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Chat Item */
+.chat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #90caf9;
+    transition: 0.3s ease-in-out;
+}
+
+.chat-item:hover {
+    transform: scale(1.03);
+    background: linear-gradient(135deg, #bbdefb, #90caf9);
+}
+
+/* Chat Info */
+.chat-info {
+    text-align: left;
+    font-size: 16px;
+    font-weight: 500;
+    color: #1565c0;
+}
+
+/* Chat Button */
+.chat-btn {
+    text-decoration: none;
+    background: #42a5f5;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: 0.3s ease-in-out;
+}
+
+.chat-btn:hover {
+    background: #1e88e5;
+}
+
+/* No Chats Message */
+.no-chats {
+    font-size: 18px;
+    color: #777;
+    margin-top: 15px;
+    font-style: italic;
+}
+
+</style>
+<div class="chat-container">
+    <h2 class="chat-title">👨‍⚕️ Doctor Chats</h2>
+
+    <div class="chat-list">
+        {% if chats %}
+            <ul>
+                {% for chat in chats %}
+                    <li class="chat-item">
+                        <div class="chat-info">
+                            <strong>Dr. {{ chat.doctor.user.username }}</strong>
+                        </div>
+                        <a href="{% url 'chat_room' chat.id %}" class="chat-btn">💬 Open Chat</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="no-chats">No active chats.</p>
+        {% endif %}
+    </div>
+</div>
+</body>
+{% endblock %}

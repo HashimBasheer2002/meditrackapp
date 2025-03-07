@@ -1,0 +1,10 @@
+<h2>Manage Affiliation Request</h2>
+<p>From: {{ affiliation_request.from_hospital.name }}</p>
+<p>To: {{ affiliation_request.to_hospital.name }}</p>
+<p>Status: {{ affiliation_request.status }}</p>
+
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit" name="action" value="accept">Accept</button>
+    <button type="submit" name="action" value="reject">Reject</button>
+</form>

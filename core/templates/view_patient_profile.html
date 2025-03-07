@@ -1,0 +1,19 @@
+<div class="profile-container">
+    <h2>{{ patient.user.first_name }} {{ patient.user.last_name }}</h2>
+
+    {% if patient.profile_picture %}
+        <img src="{{ patient.profile_picture.url }}" alt="Profile Picture" class="profile-pic">
+    {% else %}
+        <p>No profile picture uploaded</p>
+    {% endif %}
+
+    <p><strong>Username:</strong> {{ patient.user.username }}</p>
+    <p><strong>Email:</strong> {{ patient.user.email }}</p>
+    <p><strong>Age:</strong> {{ patient.age }}</p>
+    <p><strong>Gender:</strong> {{ patient.gender }}</p>
+    <p><strong>Address:</strong> {{ patient.address }}</p>
+    <p><strong>Phone:</strong> {{ patient.phone }}</p>
+    <p><strong>Medical History:</strong> {{ patient.medical_history }}</p>
+
+    <a href="{% url 'update_profile' %}" class="btn btn-primary">Edit Profile</a>
+</div>

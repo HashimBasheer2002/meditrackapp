@@ -1,0 +1,267 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="registration-container">
+    <div class="registration-card">
+        <div class="registration-header">
+            <h2>Patient Registration</h2>
+            <p>Join our network of healthcare services</p>
+        </div>
+        
+        <form method="POST" class="registration-form">
+            {% csrf_token %}
+            
+            <div class="form-section">
+                <h3>Account Information</h3>
+                <div class="form-group">
+                    <label for="{{ form.username.id_for_label }}">Username</label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                    <div class="form-error">{{ form.username.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.email.id_for_label }}">Email</label>
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                    <div class="form-error">{{ form.email.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.password1.id_for_label }}">Password</label>
+                    {{ form.password1 }}
+                    {% if form.password1.errors %}
+                    <div class="form-error">{{ form.password1.errors }}</div>
+                    {% endif %}
+                    <div class="form-help">Use at least 8 characters with a mix of letters, numbers, and symbols</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
+                    {{ form.password2 }}
+                    {% if form.password2.errors %}
+                    <div class="form-error">{{ form.password2.errors }}</div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h3>Personal Information</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="{{ form.age.id_for_label }}">Age</label>
+                        {{ form.age }}
+                        {% if form.age.errors %}
+                        <div class="form-error">{{ form.age.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="{{ form.gender.id_for_label }}">Gender</label>
+                        {{ form.gender }}
+                        {% if form.gender.errors %}
+                        <div class="form-error">{{ form.gender.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.phone.id_for_label }}">Phone Number</label>
+                    {{ form.phone }}
+                    {% if form.phone.errors %}
+                    <div class="form-error">{{ form.phone.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.address.id_for_label }}">Address</label>
+                    {{ form.address }}
+                    {% if form.address.errors %}
+                    <div class="form-error">{{ form.address.errors }}</div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="terms-privacy">
+                <input type="checkbox" id="terms-checkbox" required>
+                <label for="terms-checkbox">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+            </div>
+            
+            <button type="submit" class="register-button">Create Account</button>
+        </form>
+        
+        <div class="login-link">
+            Already have an account? <a href="{% url 'login_page' %}">Login here</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Registration Page Styles */
+    .registration-container {
+        max-width: 1000px;
+        margin: 3rem auto;
+        padding: 0 1.5rem;
+    }
+    
+    .registration-card {
+        background-color: white;
+        border-radius: 0.75rem;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
+        overflow: hidden;
+    }
+    
+    .registration-header {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        color: white;
+        padding: 2rem;
+        text-align: center;
+    }
+    
+    .registration-header h2 {
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .registration-header p {
+        opacity: 0.9;
+    }
+    
+    .registration-form {
+        padding: 2rem;
+    }
+    
+    .form-section {
+        margin-bottom: 2rem;
+        border-bottom: 1px solid var(--light-gray);
+        padding-bottom: 1.5rem;
+    }
+    
+    .form-section h3 {
+        color: var(--primary-dark);
+        margin-bottom: 1.5rem;
+        font-size: 1.2rem;
+    }
+    
+    .form-section:last-of-type {
+        border-bottom: none;
+    }
+    
+    .form-row {
+        display: flex;
+        gap: 1rem;
+    }
+    
+    .form-group {
+        margin-bottom: 1.5rem;
+        width: 100%;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: var(--dark);
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid var(--light-gray);
+        border-radius: 0.25rem;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        border-color: var(--primary);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(42, 125, 225, 0.1);
+    }
+    
+    .form-help {
+        font-size: 0.8rem;
+        color: var(--gray);
+        margin-top: 0.5rem;
+    }
+    
+    .form-error {
+        color: #e53e3e;
+        font-size: 0.8rem;
+        margin-top: 0.5rem;
+    }
+    
+    .terms-privacy {
+        display: flex;
+        align-items: start;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .terms-privacy input {
+        margin-top: 0.25rem;
+    }
+    
+    .terms-privacy a {
+        color: var(--primary);
+        text-decoration: none;
+    }
+    
+    .terms-privacy a:hover {
+        text-decoration: underline;
+    }
+    
+    .register-button {
+        width: 100%;
+        padding: 0.9rem;
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 0.25rem;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    
+    .register-button:hover {
+        background-color: var(--primary-dark);
+    }
+    
+    .login-link {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: var(--gray);
+    }
+    
+    .login-link a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 500;
+    }
+    
+    .login-link a:hover {
+        text-decoration: underline;
+    }
+    
+    @media (max-width: 768px) {
+        .form-row {
+            flex-direction: column;
+        }
+        
+        .registration-container {
+            margin: 1.5rem auto;
+        }
+        
+        .registration-form {
+            padding: 1.5rem;
+        }
+    }
+</style>
+{% endblock %}

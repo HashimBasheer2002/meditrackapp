@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    /* General Reset */
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+
+
+    .login-container {
+    position:relative;
+    left:500px;
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+        margin: 20px; /* Margin for spacing on smaller screens */
+    }
+
+    .login-container h2 {
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .error-message {
+        color: red;
+        margin-bottom: 15px;
+    }
+
+    .login-form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .login-form p {
+        margin: 10px 0;
+    }
+
+    .login-form input {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+
+    .login-form input:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+
+    .btn {
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+        background-color: #0056b3;
+    }
+
+    .message {
+        margin-top: 15px;
+        color: #777;
+    }
+
+    .message a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .message a:hover {
+        text-decoration: underline;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 600px) {
+        .login-container {
+            padding: 20px; /* Reduce padding on smaller screens */
+        }
+
+        .login-form input {
+            font-size: 14px; /* Slightly smaller font size */
+        }
+
+        .btn {
+            font-size: 14px; /* Slightly smaller button font size */
+        }
+    }
+</style>
+<br><br>
+<br>
+<br>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        {% if error %}
+        <p class="error-message">{{ error }}</p>
+        {% endif %}
+        <form method="POST" class="login-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn">Login</button>
+        </form>
+        <p class="message">Not registered? <a href="#">Create an account</a></p>
+    </div>
+</body>
+<br><br><br><br><br><br>
+{% endblock %}

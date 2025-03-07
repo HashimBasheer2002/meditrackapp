@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Hospital Messages</h2>
+
+<ul>
+    {% for chat in chat_rooms %}
+        <li>
+            <a href="{% url 'chat_room' chat.id %}">Chat with {{ chat.doctor.user.username }}</a>
+        </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

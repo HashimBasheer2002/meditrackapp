@@ -1,0 +1,12 @@
+
+  <h2>Appointment Booked Successfully!</h2>
+  <p>Your appointment with Dr. {{ doctor.user.username }} at {{ hospital.name }} is confirmed.</p>
+  <p>Appointment Details:</p>
+  <ul>
+    <li>Date: {{ appointment.date }}</li>
+    <li>Time: {{ appointment.time }}</li>
+    <li>Status: {{ appointment.status }}</li>
+    <li>Message: {{ appointment.message }}</li>
+  </ul>
+  <a href="{% url 'home' %}">Go back to Home</a>
+

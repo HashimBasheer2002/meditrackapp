@@ -1,0 +1,12 @@
+<h2>Manage Affiliation Requests</h2>
+
+{% for request in requests %}
+    <p>Request from: {{ request.from_hospital.name }}</p>
+    <form method="POST" action="{% url 'manage_affiliation_request' request.id %}">
+        {% csrf_token %}
+        <button type="submit" name="action" value="accept">Accept</button>
+        <button type="submit" name="action" value="reject">Reject</button>
+    </form>
+{% empty %}
+    <p>No pending affiliation requests.</p>
+{% endfor %}

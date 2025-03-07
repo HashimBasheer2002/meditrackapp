@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Management Dashboard</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --gray: #95a5a6;
+            --dark: #1a252f;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: var(--primary);
+            display: flex;
+            overflow-x: hidden;
+        }
+
+        .sidebar {
+            width: 280px;
+            background-color: var(--primary);
+            color: white;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 100;
+            transition: all 0.3s;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-header {
+            padding: 25px 20px;
+            background-color: var(--dark);
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-header img {
+            width: 40px;
+            height: 40px;
+            margin-right: 15px;
+            border-radius: 8px;
+        }
+
+        .sidebar-header h3 {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+            overflow-y: auto;
+            height: calc(100vh - 81px - 60px);
+        }
+
+        .menu-category {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 15px 20px 5px;
+            margin-top: 10px;
+        }
+
+        .sidebar-menu ul {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-menu a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: rgba(255,255,255,0.1);
+            border-left-color: var(--secondary);
+            color: white;
+        }
+
+        .sidebar-menu a i {
+            margin-right: 10px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .sidebar-footer {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding: 15px 20px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            background-color: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background-color: rgba(231, 76, 60, 0.3);
+        }
+
+        .logout-btn i {
+            margin-right: 10px;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-header::before {
+            content: "";
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .dashboard-header::after {
+            content: "";
+            position: absolute;
+            bottom: -80px;
+            left: 30%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .dashboard-header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+        }
+
+        .dashboard-header p {
+            margin: 10px 0 0;
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin: 30px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light);
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .dashboard-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 4px solid var(--secondary);
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--light);
+        }
+
+        .card-icon {
+            background-color: rgba(52, 152, 219, 0.1);
+            color: var(--secondary);
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+
+        .doctors .card-icon {
+            background-color: rgba(46, 204, 113, 0.1);
+            color: var(--success);
+        }
+
+        .doctors {
+            border-top-color: var(--success);
+        }
+
+        .appointments .card-icon {
+            background-color: rgba(243, 156, 18, 0.1);
+            color: var(--warning);
+        }
+
+        .appointments {
+            border-top-color: var(--warning);
+        }
+
+        .ambulance .card-icon {
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--accent);
+        }
+
+        .ambulance {
+            border-top-color: var(--accent);
+        }
+
+        .patients .card-icon {
+            background-color: rgba(155, 89, 182, 0.1);
+            color: #9b59b6;
+        }
+
+        .patients {
+            border-top-color: #9b59b6;
+        }
+
+        .affiliations .card-icon {
+            background-color: rgba(52, 73, 94, 0.1);
+            color: var(--primary);
+        }
+
+        .affiliations {
+            border-top-color: var(--primary);
+        }
+
+        .resources .card-icon {
+            background-color: rgba(22, 160, 133, 0.1);
+            color: #16a085;
+        }
+
+        .resources {
+            border-top-color: #16a085;
+        }
+
+        .pharmacy .card-icon {
+            background-color: rgba(46, 139, 87, 0.1);
+            color: #2e8b57;
+        }
+
+        .pharmacy {
+            border-top-color: #2e8b57;
+        }
+
+        .card-title {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .action-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .action-list li {
+            margin-bottom: 12px;
+        }
+
+        .action-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            background-color: var(--light);
+            transform: translateX(5px);
+        }
+
+        .action-btn span {
+            margin-left: 10px;
+        }
+
+        .toggle-sidebar {
+            position: fixed;
+            top: 20px;
+            left: 290px;
+            background-color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 101;
+            transition: all 0.3s;
+        }
+
+        .toggle-sidebar:hover {
+            background-color: var(--light);
+        }
+
+        .feedback-section {
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .feedback-section h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light);
+        }
+
+        .feedback-table-container {
+            display: flex;
+            justify-content: center;
+            overflow-x: auto;
+        }
+
+        .feedback-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .feedback-table thead {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            font-weight: bold;
+        }
+
+        .feedback-table th {
+            padding: 15px;
+            text-align: left;
+        }
+
+        .feedback-table tbody tr {
+            border-bottom: 1px solid #eee;
+            transition: background 0.3s ease-in-out;
+        }
+
+        .feedback-table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .feedback-table td {
+            padding: 15px;
+        }
+
+        .patient-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+        }
+
+        .profile-pic {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--secondary);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .rating {
+            font-size: 18px;
+            color: #ff9800;
+        }
+
+        .feedback-text {
+            font-style: italic;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .feedback-date {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .no-feedback {
+            text-align: center;
+            font-size: 18px;
+            color: #888;
+            margin: 40px 0;
+            padding: 30px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            color: var(--gray);
+            padding: 20px;
+            border-top: 1px solid var(--light);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 991px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .toggle-sidebar {
+                left: 20px;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .toggle-sidebar.active {
+                left: 290px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .dashboard-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+
+            <h3>Hospital Dashboard</h3>
+        </div>
+
+        <div class="sidebar-menu">
+            <div class="menu-category">Quick Links</div>
+            <ul>
+                <li><a href="/dashboard" class="active"><i>📊</i> Dashboard</a></li>
+
+            </ul>
+
+            <div class="menu-category">Management</div>
+            <ul>
+                <li><a href="{% url 'doctor_list' request.user.hospital.id %}"><i>👨‍⚕️</i> Medical Staff</a></li>
+                <li><a href="{% url 'hospital_appointments' request.user.hospital.id %}"><i>📅</i> Appointments</a></li>
+                <li><a href="{% url 'view_ambulances' request.user.hospital.id %}"><i>🚑</i> Ambulances</a></li>
+
+            </ul>
+
+            <div class="menu-category">Administration</div>
+            <ul>
+                <li><a href="{% url 'view_affiliated_hospitals' %}"><i>🏥</i> Partnerships</a></li>
+                <li><a href="{% url 'send_resource_request' %}"><i>📦</i> Resources</a></li>
+
+            </ul>
+        </div>
+
+        <div class="sidebar-footer">
+            <a href="/logout" class="logout-btn">
+                <i>🚪</i> Sign Out
+            </a>
+        </div>
+    </div>
+
+    <!-- Toggle Sidebar Button -->
+    <div class="toggle-sidebar" onclick="toggleSidebar()">
+        ≡
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <div class="dashboard-header">
+            <h1>🏥 Hospital Dashboard</h1>
+            <p>Welcome to your comprehensive hospital management dashboard</p>
+        </div>
+
+        <h2 class="section-title">Key Management Areas</h2>
+        <div class="card-grid">
+            <!-- Doctors Card -->
+            <div class="dashboard-card doctors">
+                <div class="card-header">
+                    <div class="card-icon">👨‍⚕️</div>
+                    <h2 class="card-title">Medical Staff</h2>
+                </div>
+                <ul class="action-list">
+                    <li>
+                        <a href="{% url 'doctor_register' %}" class="action-btn">
+                            ➕ <span>Register New Doctor</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'doctor_list' request.user.hospital.id %}" class="action-btn">
+                            👀 <span>View Hospital Doctors</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'doctor_chats' %}" class="action-btn">
+                            💬 <span>Messages</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Appointments Card -->
+            <div class="dashboard-card appointments">
+                <div class="card-header">
+                    <div class="card-icon">📅</div>
+                    <h2 class="card-title">Patient Care</h2>
+                </div>
+                <ul class="action-list">
+                    <li>
+                        <a href="{% url 'hospital_appointments' request.user.hospital.id %}" class="action-btn">
+                            📋 <span>Manage Appointments</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'hospital_all_prescriptions' %}" class="action-btn">
+                            📝 <span>Review Prescriptions</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Pharmacy Card -->
+            <div class="dashboard-card pharmacy">
+                <div class="card-header">
+                    <div class="card-icon">💊</div>
+                    <h2 class="card-title">Pharmacy Section</h2>
+                </div>
+                <ul class="action-list">
+                    <li>
+                        <a href="{% url 'hospital_prescriptions' %}" class="action-btn">
+                            📋 <span>Prescription Queue</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="" class="action-btn">
+                            📊 <span>Pharmacy Reports</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Ambulance Services Card -->
+            <div class="dashboard-card ambulance">
+                <div class="card-header">
+                    <div class="card-icon">🚑</div>
+                    <h2 class="card-title">Emergency Services</h2>
+                </div>
+                <ul class="action-list">
+                    <li>
+                        <a href="{% url 'add_ambulance' %}" class="action-btn">
+                            🚗 <span>Register New Ambulance</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'view_ambulances' request.user.hospital.id %}" class="action-btn">
+                            ⚙️ <span>Fleet Management</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'hospital_ambulance_bookings' request.user.hospital.id %}" class="action-btn">
+                            📖 <span>Bookings</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <h2 class="section-title">Administration & Network</h2>
+        <div class="card-grid">
+            <!-- Patient Services Card -->
+            <div class="dashboard-card patients">
+                <div class="card-header">
+                    <div class="card-icon">🧑‍⚕️</div>
+                    <h2 class="card-title">Patient Relations</h2>
+                </div>
+                <ul class="action-list">
+                    <li>
+                        <a href="{% url 'hospital_feedback' %}" class="action-btn">
+                            💬 <span>Patient Feedback & Reviews</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Hospital Affiliations Card -->
+            <div class="dashboard-card affiliations">
+                <div class="card-header">
+                    <div class="card-icon">🏥</div>
+                    <h2 class="card-title">Network & Partnerships</h2>
+                </div>
+                <ul class="action-list">
+                    <li>
+                        <a href="{% url 'send_affiliation_request' %}" class="action-btn">
+                            📨 <span>Initiate Partnership</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'manage_affiliation_requests' %}" class="action-btn">
+                            📜 <span>Affiliation Requests</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'view_affiliated_hospitals' %}" class="action-btn">
+                            🏥 <span>Partner Hospitals</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Resources & Supplies Card -->
+            <div class="dashboard-card resources">
+                <div class="card-header">
+                    <div class="card-icon">🏨</div>
+                    <h2 class="card-title">Supply Chain</h2>
+                </div>
+                <ul class="action-list">
+                    <li>
+                        <a href="{% url 'send_resource_request' %}" class="action-btn">
+                            📩 <span>Request Medical Supplies</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'received_resource_requests' %}" class="action-btn">
+                            📥 <span>Process Incoming Requests</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'view_resource_requests' %}" class="action-btn">
+                            📊 <span>Supply Request Status</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Patient Feedback Section -->
+        <div class="feedback-section">
+            <h2>Recent Patient Feedback</h2>
+            {% if feedback_list %}
+                <div class="feedback-table-container">
+                    <table class="feedback-table">
+                        <thead>
+                            <tr>
+                                <th>Patient</th>
+                                <th>Rating</th>
+                                <th>Feedback</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for feedback in feedbacks %}
+                            <tr>
+                                <td class="patient-info">
+                                    <img src="{{ feedback.patient.profile_picture.url }}" alt="Profile Picture" class="profile-pic">
+                                    {{ feedback.patient.user.username }}
+                                </td>
+                                <td class="rating">{{ feedback.rating }} ⭐</td>
+                                <td class="feedback-text">"{{ feedback.comments }}"</td>
+                                <td class="feedback-date">{{ feedback.created_at|date:"F j, Y" }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="no-feedback">No feedback available yet.</p>
+            {% endif %}
+        </div>
+
+        <footer>
+            <p>© 2025 Hospital Management System | All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            document.querySelector('.sidebar').classList.toggle('active');
+            document.querySelector('.toggle-sidebar').classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

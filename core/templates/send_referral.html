@@ -1,0 +1,18 @@
+<h2>Refer Patient: {{ patient.name }}</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <label for="doctor">To Doctor:</label>
+    <select name="doctor" id="doctor">
+        <option value="">-- Select a Doctor --</option>
+        {% for doctor in doctors %}
+            <option value="{{ doctor.id }}">Dr. {{ doctor.user.first_name }} {{ doctor.user.last_name }} ({{ doctor.hospital.name }})</option>
+        {% endfor %}
+    </select>
+
+    <label for="reason">Reason:</label>
+    <textarea name="reason" id="reason" required></textarea>
+
+    <button type="submit">Send Referral</button>
+</form>

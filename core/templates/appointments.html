@@ -1,0 +1,137 @@
+<style>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff; /* Bootstrap primary color */
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1; /* Light gray on hover */
+        }
+
+        a {
+            color: #007bff; /* Bootstrap primary color */
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        button {
+            padding: 5px 10px;
+            background-color: #28a745; /* Green for buttons */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+
+        .back-button {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            text-align: center;
+            background-color: #007bff; /* Bootstrap primary color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+
+        @media (max-width: 600px) {
+            th, td {
+                padding: 10px;
+            }
+
+            .back-button {
+                width: 100%;
+            }
+        }
+</style>
+<h2>Your Appointments</h2>
+<table border="1">
+    <tr>
+        <th>Patient</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Consultation Type</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    {% for appointment in appointments %}
+    <tr>
+        <td>{{ appointment.patient.user.username }}</td>
+        <td>{{ appointment.date }}</td>
+        <td>{{ appointment.time }}</td>
+        <td>{{ appointment.consultation_type }}</td>
+        <td>{{ appointment.status }}</td>
+        <td>
+            {% if appointment.status == "Pending" %}
+                <a href="{% url 'confirm_appointment' appointment.id %}">Confirm</a> |
+                <a href="{% url 'cancel_appointment' appointment.id %}">Cancel</a>
+
+            {% elif appointment.status == "Confirmed" %}
+                <a href="{% url 'doctor_view_patient_history' appointment.patient.id %}">View History</a>
+
+                {% if appointment.consultation_type == "Online" %}
+                    <form method="post" action="{% url 'start_chat' appointment.id %}">
+                        {% csrf_token %}
+                        <button type="submit">Start Chat</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'end_consultation' appointment.id %}">Finalize Appointment</a>
+                {% endif %}
+
+            {% elif appointment.consultation_type == "Online" and appointment.status == "Chat Started" %}
+                <a href="{% url 'chat' appointment.id %}">Go to Chat</a> |
+                <a href="{% url 'end_consultation' appointment.id %}">End Consultation</a>
+
+            {% elif appointment.status == "Completed" %}
+                ✅ Completed
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>

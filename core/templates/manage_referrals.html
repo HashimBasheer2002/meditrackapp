@@ -1,0 +1,10 @@
+<h2>Manage Referrals</h2>
+
+{% for referral in referrals %}
+    <p>Referral from {{ referral.from_doctor }} for {{ referral.patient }}</p>
+    <p>Reason: {{ referral.reason }}</p>
+    <a href="{% url 'update_referral_status' referral.id 'accept' %}">Accept</a>
+    <a href="{% url 'update_referral_status' referral.id 'reject' %}">Reject</a>
+{% empty %}
+    <p>No pending referrals.</p>
+{% endfor %}

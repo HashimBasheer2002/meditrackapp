@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .chat-container { width: 50%; margin: auto; text-align: center; }
+        .messages { border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: scroll; background: #f9f9f9; }
+        .message { margin-bottom: 10px; padding: 8px; border-radius: 5px; max-width: 70%; display: inline-block; }
+        .sent { background: #daf7a6; text-align: right; float: right; }
+        .received { background: #f0f0f0; text-align: left; float: left; }
+        .clear { clear: both; }
+        .chat-form { margin-top: 10px; display: flex; }
+        .chat-form input { flex: 1; padding: 8px; }
+        .chat-form button { padding: 8px; }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <h2>Chat with {% if request.user == appointment.patient.user %}Dr. {{ appointment.doctor.user.username }}{% else %}{{ appointment.patient.user.username }}{% endif %}</h2>
+        <div class="messages" id="chatBox">
+            {% for message in messages %}
+                <div class="message {% if message.sender == request.user %}sent{% else %}received{% endif %}">
+                    <strong>{{ message.sender.username }}</strong>: {{ message.content }}
+                    <br>
+                    <small>{{ message.timestamp }}</small>
+                </div>
+                <div class="clear"></div>
+            {% endfor %}
+        </div>
+        <form method="post" class="chat-form">
+            {% csrf_token %}
+            <input type="text" name="message" id="messageInput" placeholder="Type a message..." required>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+    <script>
+        // Auto-scroll to the latest message
+        var chatBox = document.getElementById("chatBox");
+        chatBox.scrollTop = chatBox.scrollHeight;
+    </script>
+</body>
+</html>

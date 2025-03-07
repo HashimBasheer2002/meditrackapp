@@ -1,0 +1,195 @@
+
+    <div class="header-section">
+        <h1>Track My Ambulance</h1>
+        <a href="{% url 'patient_dashboard' %}" class="back-btn">
+            <i class="back-icon">⬅️</i> Back to Dashboard
+        </a>
+    </div>
+
+    {% if bookings %}
+    <div class="tracking-table-container">
+        <table class="tracking-table">
+            <thead>
+                <tr>
+                    <th>Ambulance</th>
+                    <th>Hospital</th>
+                    <th>Pickup Location</th>
+                    <th>Status</th>
+                    <th>Last Updated</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                <tr class="{% if booking.status == 'In Progress' %}in-progress{% elif booking.status == 'Completed' %}completed{% elif booking.status == 'Cancelled' %}cancelled{% endif %}">
+                    <td>{{ booking.ambulance.vehicle_number }}</td>
+                    <td>{{ booking.ambulance.hospital.name }}</td>
+                    <td>{{ booking.pickup_location }}</td>
+                    <td>
+                        <span class="status-badge status-{{ booking.status|lower|cut:" " }}">
+                            {{ booking.status }}
+                        </span>
+                    </td>
+                    <td>{{ booking.updated_at|date:"d M Y, H:i A" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="no-bookings">
+        <i class="empty-icon">🚑</i>
+        <p>No active ambulance bookings found.</p>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .ambulance-tracking-container {
+        max-width: 1000px;
+        margin: 30px auto;
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .header-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        border-bottom: 1px solid #eaeaea;
+        padding-bottom: 15px;
+    }
+    
+    .header-section h1 {
+        color: #2c3e50;
+        margin: 0;
+        font-size: 24px;
+    }
+    
+    .back-btn {
+        display: flex;
+        align-items: center;
+        background: #3498db;
+        color: white;
+        text-decoration: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .back-btn:hover {
+        background: #2980b9;
+        transform: translateY(-2px);
+    }
+    
+    .back-icon {
+        margin-right: 8px;
+        font-size: 16px;
+    }
+    
+    .tracking-table-container {
+        overflow-x: auto;
+    }
+    
+    .tracking-table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    }
+    
+    .tracking-table thead {
+        background-color: #34495e;
+        color: white;
+    }
+    
+    .tracking-table th {
+        padding: 15px;
+        text-align: left;
+        font-weight: 600;
+    }
+    
+    .tracking-table td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #eaeaea;
+    }
+    
+    .tracking-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+    
+    .tracking-table tbody tr:hover {
+        background-color: #f9f9f9;
+    }
+    
+    .status-badge {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 500;
+        text-align: center;
+    }
+    
+    .status-pending {
+        background-color: #f1c40f;
+        color: #7d6608;
+    }
+    
+    .status-inprogress {
+        background-color: #3498db;
+        color: white;
+    }
+    
+    .status-completed {
+        background-color: #2ecc71;
+        color: white;
+    }
+    
+    .status-cancelled {
+        background-color: #e74c3c;
+        color: white;
+    }
+    
+    .no-bookings {
+        text-align: center;
+        padding: 40px 20px;
+        background-color: #f7f9fc;
+        border-radius: 8px;
+        border: 1px dashed #ccd6e0;
+    }
+    
+    .empty-icon {
+        font-size: 40px;
+        display: block;
+        margin-bottom: 15px;
+        opacity: 0.7;
+    }
+    
+    .no-bookings p {
+        font-size: 18px;
+        color: #7f8c8d;
+        margin: 0;
+    }
+    
+    @media (max-width: 768px) {
+        .header-section {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        
+        .tracking-table {
+            font-size: 14px;
+        }
+        
+        .tracking-table th, 
+        .tracking-table td {
+            padding: 10px;
+        }
+    }
+</style>

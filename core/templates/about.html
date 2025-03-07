@@ -1,0 +1,528 @@
+{% extends 'base.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About IMFN - Integrated Medical Facilities Network</title>
+    <style>
+        /* Modern Color Palette */
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #06b6d4;
+            --accent: #8b5cf6;
+            --light: #f3f4f6;
+            --dark: #1e293b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --text: #334155;
+            --text-light: #64748b;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Base Styles */
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+            color: var(--text);
+            line-height: 1.7;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            line-height: 1.3;
+            color: var(--dark);
+            margin-top: 0;
+        }
+
+        h1 {
+            font-size: 3rem;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            position: relative;
+            padding-bottom: 12px;
+            margin-bottom: 25px;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 4px;
+            width: 60px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            color: var(--primary-dark);
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 6px var(--shadow);
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(45deg, var(--primary-dark), var(--primary));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+            color: white;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 80px 0;
+            position: relative;
+        }
+
+        section:nth-child(odd) {
+            background-color: white;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            padding: 120px 0 80px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border-radius: 0 0 50% 50% / 100px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, rgba(37, 99, 235, 0.1), rgba(6, 182, 212, 0.1));
+            top: -150px;
+            right: -150px;
+        }
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, rgba(139, 92, 246, 0.1), rgba(6, 182, 212, 0.1));
+            bottom: -150px;
+            left: -150px;
+        }
+
+        .lead {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--text);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* About Overview */
+        .about-overview {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .mission-box {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            margin: 40px 0;
+            border-left: 5px solid var(--primary);
+            text-align: left;
+        }
+
+        /* Key Modules */
+        .key-modules {
+            padding-bottom: 100px;
+        }
+
+        .module-cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .module-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            width: calc(33.333% - 25px);
+            margin-bottom: 25px;
+            border-top: 5px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border-top: 5px solid var(--secondary);
+        }
+
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+            clip-path: circle(0% at 100% 100%);
+            transition: all 0.5s ease-out;
+        }
+
+        .module-card:hover::before {
+            clip-path: circle(150% at 100% 100%);
+        }
+
+        .module-card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .module-card ul {
+            list-style-type: none;
+            padding: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .module-card li {
+            padding-left: 25px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .module-card li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        /* Benefits Section */
+        .benefits {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+            padding: 100px 0;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
+
+        .benefit-item {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .benefit-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .benefit-item h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        /* Technology Section */
+        .technology {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .technology ul {
+            background: white;
+            padding: 30px 30px 30px 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            margin-top: 30px;
+        }
+
+        .technology li {
+            position: relative;
+            padding-left: 10px;
+        }
+
+        .technology li::before {
+            content: '•';
+            color: var(--primary);
+            font-weight: bold;
+            position: absolute;
+            left: -15px;
+        }
+
+        /* Contact Section */
+        .contact-info {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+            padding: 80px 0;
+            border-radius: 50% 50% 0 0 / 100px;
+            margin-top: 40px;
+        }
+
+        .contact-details {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            max-width: 500px;
+            margin: 30px auto;
+        }
+
+        .contact-details p {
+            margin: 10px 0;
+        }
+
+        .contact-form-link {
+            margin-top: 40px;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        section {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .module-card {
+                width: calc(50% - 25px);
+            }
+            h1 {
+                font-size: 2.5rem;
+            }
+            h2 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            section {
+                padding: 60px 0;
+            }
+            .hero-section {
+                padding: 80px 0 60px;
+            }
+            .module-card {
+                width: 100%;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+            .lead {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <section class="hero-section">
+            <h1>About IMFN</h1>
+            <p class="lead">Revolutionizing Healthcare Management Across Multiple Hospitals</p>
+        </section>
+
+        <section class="about-overview">
+            <h2>Our Vision</h2>
+            <p>The Integrated Medical Facilities Network (IMFN) is an innovative software solution designed to transform healthcare management by connecting multiple hospitals into a unified, efficient system. We leverage advanced technology to automate processes, improve communication, and enhance resource utilization across the entire healthcare network.</p>
+
+            <div class="mission-box">
+                <h3>Our Mission</h3>
+                <p>To ensure streamlined workflows, enable better patient care, and facilitate efficient coordination among various stakeholders, including administrators, doctors, patients, and emergency services.</p>
+            </div>
+        </section>
+
+        <section class="key-modules">
+            <h2>Key Modules and Features</h2>
+
+            <div class="module-cards-container">
+                <div class="module-card">
+                    <h3>Admin Module</h3>
+                    <ul>
+                        <li>Centralized management of hospital networks</li>
+                        <li>Control over user roles, permissions, and data access</li>
+                        <li>Real-time monitoring of operations across all connected hospitals</li>
+                    </ul>
+                </div>
+
+                <div class="module-card">
+                    <h3>Hospital Module</h3>
+                    <ul>
+                        <li>Resource allocation and facility management</li>
+                        <li>Scheduling and management of hospital services</li>
+                        <li>Integration of medical departments for seamless collaboration</li>
+                    </ul>
+                </div>
+
+                <div class="module-card">
+                    <h3>Patient Module</h3>
+                    <ul>
+                        <li>Easy registration and profile management</li>
+                        <li>Access to medical records and test reports</li>
+                        <li>Appointment booking and feedback system</li>
+                    </ul>
+                </div>
+
+                <div class="module-card">
+                    <h3>Ambulance Module</h3>
+                    <ul>
+                        <li>Real-time ambulance tracking and availability status</li>
+                        <li>Request and dispatch management for emergency services</li>
+                        <li>Integration with hospital emergency units for faster response</li>
+                    </ul>
+                </div>
+
+                <div class="module-card">
+                    <h3>Doctor Module</h3>
+                    <ul>
+                        <li>Comprehensive patient history and treatment planning tools</li>
+                        <li>Online consultation and prescription management</li>
+                        <li>Scheduling and coordination for multi-hospital practices</li>
+                    </ul>
+                </div>
+
+                <div class="module-card">
+                    <h3>Payment Module</h3>
+                    <ul>
+                        <li>Secure payment processing and billing management</li>
+                        <li>Insurance verification and claims processing</li>
+                        <li>Basic payment plans for patients</li>
+                        <li>Financial reporting</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="benefits">
+            <h2>Benefits of IMFN</h2>
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <h3>For Hospitals</h3>
+                    <p>Optimize resource allocation, improve operational efficiency, and enhance coordination between departments.</p>
+                </div>
+                <div class="benefit-item">
+                    <h3>For Doctors</h3>
+                    <p>Access comprehensive patient data, streamline consultations, and manage schedules efficiently across multiple locations.</p>
+                </div>
+                <div class="benefit-item">
+                    <h3>For Patients</h3>
+                    <p>Enjoy seamless healthcare experiences, from appointment booking to accessing medical records and managing payments.</p>
+                </div>
+                <div class="benefit-item">
+                    <h3>For Emergency Services</h3>
+                    <p>Respond faster with real-time information and better coordination with hospital emergency units.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="technology">
+            <h2>Our Technology</h2>
+            <p>IMFN employs cutting-edge technology to deliver a secure, scalable, and reliable platform for healthcare management:</p>
+            <ul>
+                <li>Cloud-based architecture for accessibility and scalability</li>
+                <li>End-to-end encryption for data security</li>
+                <li>Real-time analytics and reporting</li>
+                <li>Mobile-responsive design for access on any device</li>
+                <li>API integration capabilities with existing hospital systems</li>
+            </ul>
+        </section>
+
+        <section class="contact-info">
+            <h2>Contact Us</h2>
+            <p>Interested in learning more about how IMFN can transform your healthcare facility? Get in touch with our team:</p>
+            <div class="contact-details">
+                <p>Email: info@imfn.com</p>
+                <p>Phone: (555) 123-4567</p>
+                <p>Address: 123 Healthcare Avenue, Medical District, City, Country</p>
+            </div>
+            <div class="contact-form-link">
+                <a href="" class="btn btn-primary">Contact Us</a>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,43 @@
+<h2>Prescription History</h2>
+
+<!-- Search Form -->
+<form method="GET" class="search-form">
+    <label for="search">Search by Patient Username:</label>
+    <input type="text" name="search" id="search" placeholder="Enter Patient's Username" value="{{ search_query }}">
+    <button type="submit">Search</button>
+</form>
+
+{% if medical_records %}
+    <h3>Medical Records for Patient: {{ medical_records.0.patient.user.username }}</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Doctor</th>
+                <th>Hospital</th>
+                <th>Diagnosis</th>
+                <th>Prescription</th>
+                <th>Appointment Date</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in medical_records %}
+                <tr>
+                    <td>{{ record.doctor.user.username }}</td>
+                    <td>{{ record.hospital.name }}</td>
+                    <td>{{ record.diagnosis }}</td>
+                    <td>{{ record.prescription }}</td>
+                    <td>{{ record.appointment.date }}</td>
+                    <td>{{ record.created_at }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% elif search_query %}
+    <p>No records found for patient: "{{ search_query }}"</p>
+{% else %}
+    <p>No medical records found</p>
+{% endif %}
+
+<!-- Back to Dashboard Button -->
+<a href="{% url 'doctor_dashboard' %}" class="btn-dashboard">Back to Dashboard</a>

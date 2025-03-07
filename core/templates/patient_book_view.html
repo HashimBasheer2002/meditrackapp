@@ -1,0 +1,21 @@
+<h2>Your Appointments</h2>
+<table border="1">
+    <tr>
+        <th>Doctor</th>
+        <th>Hospital</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Consultation Type</th>
+        <th>Status</th>
+    </tr>
+    {% for appointment in appointments %}
+    <tr>
+        <td>{{ appointment.doctor.user.username }}</td>
+        <td>{{ appointment.hospital.name }}</td>
+        <td>{{ appointment.date }}</td>
+        <td>{{ appointment.time }}</td>
+        <td>{{ appointment.consultation_type }}</td>
+        <td>{{ appointment.status }}</td>
+    </tr>
+    {% endfor %}
+</table>

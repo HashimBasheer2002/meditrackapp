@@ -1,0 +1,71 @@
+{% extends 'base.html'%}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Prescriptions</title>
+    <style>
+
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin-top: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background: #007bff;
+            color: white;
+        }
+        tr:hover {
+            background: #f1f1f1;
+        }
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>All Prescriptions in {{ request.user.hospital.name }}</h2>
+        {% if prescriptions %}
+            <table>
+                <tr>
+                    <th>Patient</th>
+                    <th>Diagnosis</th>
+                    <th>Prescription</th>
+                    <th>Appointment Date</th>
+                </tr>
+                {% for prescription in prescriptions %}
+                <tr>
+                    <td>{{ prescription.patient.user.username }}</td>
+                    <td>{{ prescription.advice }}</td>  <!-- Use 'advice' if 'diagnosis' is missing -->
+                    <td>{{ prescription.details }}</td>
+                    <td>{{ prescription.appointment.date }}</td>  <!-- Ensure 'appointment' is related -->
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>No prescriptions found.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
+{% endblock %}

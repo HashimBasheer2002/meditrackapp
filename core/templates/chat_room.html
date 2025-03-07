@@ -1,0 +1,268 @@
+<div class="chat-container">
+  <div class="chat-header">
+    <div class="header-left">
+      <a href="{% url 'dashboard' %}" class="back-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span>Dashboard</span>
+      </a>
+    </div>
+    <h2>Chat Room</h2>
+    <span class="room-id">Room ID: {{ chat.id }}</span>
+  </div>
+
+  <!-- Chat Messages -->
+  <div id="chat-box" class="chat-messages">
+    {% for msg in messages %}
+      <div class="message {% if msg.sender.username == request.user.username %}outgoing{% else %}incoming{% endif %}">
+        <div class="message-header">
+          <span class="username">{{ msg.sender.username|default:"Unknown" }}</span>
+          <span class="timestamp">{{ msg.timestamp }}</span>
+        </div>
+        <div class="message-content">{{ msg.message }}</div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- Message Input and Send Button -->
+  <form id="chat-form" method="POST" class="message-form">
+    {% csrf_token %}
+    <input type="text" name="message" id="message-input" placeholder="Type your message..." required>
+    <button type="submit">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="22" y1="2" x2="11" y2="13"></line>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+      </svg>
+    </button>
+  </form>
+</div>
+
+<style>
+  /* Container Styles */
+  .chat-container {
+    max-width: 800px;
+    margin: 0 auto;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+  }
+
+  /* Header Styles */
+  .chat-header {
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header-left {
+    flex: 1;
+  }
+
+  .chat-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    flex: 1;
+    text-align: center;
+  }
+
+  .room-id {
+    font-size: 0.8rem;
+    opacity: 0.8;
+    flex: 1;
+    text-align: right;
+  }
+
+  /* Back Button Styles */
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: opacity 0.2s;
+    padding: 5px 10px;
+    border-radius: 20px;
+  }
+
+  .back-button:hover {
+    opacity: 0.8;
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .back-button svg {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+  }
+
+  /* Messages Area */
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    background-color: #f5f7fb;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Message Styles */
+  .message {
+    max-width: 70%;
+    padding: 10px 15px;
+    border-radius: 18px;
+    animation: fadeIn 0.3s ease;
+    position: relative;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .incoming {
+    align-self: flex-start;
+    background-color: white;
+    border-bottom-left-radius: 5px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  .outgoing {
+    align-self: flex-end;
+    background-color: #6e8efb;
+    color: white;
+    border-bottom-right-radius: 5px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  .message-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 0.85rem;
+  }
+
+  .outgoing .message-header {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .username {
+    font-weight: bold;
+  }
+
+  .timestamp {
+    font-size: 0.7rem;
+    opacity: 0.7;
+  }
+
+  .message-content {
+    word-break: break-word;
+    line-height: 1.4;
+  }
+
+  /* Form Styles */
+  .message-form {
+    display: flex;
+    padding: 15px;
+    background-color: white;
+    border-top: 1px solid #eaeaea;
+    gap: 10px;
+  }
+
+  #message-input {
+    flex: 1;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 24px;
+    outline: none;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+  }
+
+  #message-input:focus {
+    border-color: #6e8efb;
+    box-shadow: 0 0 0 2px rgba(110, 142, 251, 0.2);
+  }
+
+  button[type="submit"] {
+    background-color: #6e8efb;
+    color: white;
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+  }
+
+  button[type="submit"]:hover {
+    background-color: #5a7df9;
+  }
+
+  button[type="submit"] svg {
+    width: 18px;
+    height: 18px;
+  }
+</style>
+
+<script>
+document.getElementById("chat-form").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    let messageInput = document.getElementById("message-input");
+    let chatBox = document.getElementById("chat-box");
+    let message = messageInput.value.trim();
+
+    if (message === "") return;
+
+    fetch("{% url 'send_message' chat.id %}", {
+        method: "POST",
+        body: new URLSearchParams({ "message": message }),
+        headers: {
+            "X-CSRFToken": "{{ csrf_token }}",
+            "Content-Type": "application/x-www-form-urlencoded"
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert(data.error);
+        } else {
+            let newMessage = document.createElement("div");
+            newMessage.className = "message outgoing";
+            newMessage.innerHTML = `
+                <div class="message-header">
+                    <span class="username">${data.sender}</span>
+                    <span class="timestamp">${data.timestamp}</span>
+                </div>
+                <div class="message-content">${data.message}</div>
+            `;
+            chatBox.appendChild(newMessage);
+            chatBox.scrollTop = chatBox.scrollHeight;
+            messageInput.value = "";
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("Failed to send message. Please try again.");
+    });
+});
+
+// Scroll to bottom when page loads
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("chat-box").scrollTop = document.getElementById("chat-box").scrollHeight;
+});
+</script>

@@ -1,0 +1,132 @@
+<style>
+  .prescription-container {
+    font-family: 'Roboto', 'Segoe UI', Arial, sans-serif;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e5e7eb;
+  }
+
+  .prescription-title {
+    color: #2563eb;
+    font-size: 24px;
+    margin: 0;
+  }
+
+  .back-button {
+    display: inline-block;
+    background-color: #2563eb;
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+  }
+
+  .back-button:hover {
+    background-color: #1d4ed8;
+  }
+
+  .prescription-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .prescription-table th {
+    background-color: #2563eb;
+    color: white;
+    text-align: left;
+    padding: 12px 15px;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .prescription-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e5e7eb;
+    vertical-align: top;
+  }
+
+  .prescription-table tr:nth-child(even) {
+    background-color: #f9fafb;
+  }
+
+  .prescription-table tr:hover {
+    background-color: #f0f4ff;
+  }
+
+  .prescription-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .prescription-empty {
+    text-align: center;
+    color: #6b7280;
+    font-style: italic;
+    padding: 15px;
+  }
+
+  @media (max-width: 768px) {
+    .prescription-container {
+      padding: 15px;
+    }
+
+    .header-container {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .prescription-table {
+      display: block;
+      overflow-x: auto;
+    }
+
+    .prescription-table th,
+    .prescription-table td {
+      padding: 10px;
+    }
+  }
+</style>
+
+<div class="prescription-container">
+  <div class="header-container">
+    <h2 class="prescription-title">Your Prescription History</h2>
+    <a href="{% url 'patient_dashboard' %}" class="back-button">Back to Dashboard</a>
+  </div>
+  <table class="prescription-table">
+    <tr>
+      <th>Date</th>
+      <th>Doctor</th>
+      <th>Diagnosis</th>
+      <th>Prescription</th>
+      <th>Advice</th>
+    </tr>
+    {% for prescription in prescriptions %}
+    <tr>
+      <td>{{ prescription.appointment.date }}</td>
+      <td>Dr. {{ prescription.doctor.user.username }}</td>
+      <td>{{ prescription.appointment.medicalrecord.diagnosis }}</td>
+      <td>{{ prescription.details }}</td>
+      <td>{{ prescription.advice }}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="5" class="prescription-empty">No prescriptions found.</td></tr>
+    {% endfor %}
+  </table>
+</div>
