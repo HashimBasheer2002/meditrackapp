@@ -1,4 +1,3 @@
-
 {% extends 'base.html'%}
 {% block content %}
 {% load static %}
@@ -6,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMFN - Integrated Medical Facilities Network</title>
+    <title>MediTrack - Healthcare Management System</title>
     <style>
         /* Reset and Base Styles */
         * {
@@ -17,13 +16,14 @@
         }
 
         :root {
-            --primary: #2A7DE1;
-            --primary-dark: #1A5DAF;
-            --secondary: #34C0AC;
-            --light: #F8FAFC;
-            --dark: #1E293B;
-            --gray: #94A3B8;
-            --light-gray: #E2E8F0;
+            --primary: #4F46E5;
+            --primary-dark: #3730A3;
+            --secondary: #10B981;
+            --accent: #F59E0B;
+            --light: #F9FAFB;
+            --dark: #111827;
+            --gray: #6B7280;
+            --light-gray: #E5E7EB;
         }
 
         body {
@@ -57,7 +57,7 @@
             align-items: center;
             gap: 0.5rem;
             text-decoration: none;
-            color: var(--primary-dark);
+            color: var(--primary);
             font-weight: 700;
             font-size: 1.5rem;
         }
@@ -84,12 +84,12 @@
 
         .nav-links a:hover {
             color: var(--primary);
-            background-color: rgba(42, 125, 225, 0.1);
+            background-color: rgba(79, 70, 229, 0.1);
         }
 
         .nav-links a.active {
             color: var(--primary);
-            background-color: rgba(42, 125, 225, 0.1);
+            background-color: rgba(79, 70, 229, 0.1);
         }
 
         .mobile-menu-btn {
@@ -151,7 +151,7 @@
         }
 
         .section-header h2 {
-            color: var(--primary-dark);
+            color: var(--primary);
             font-size: 2rem;
             margin-bottom: 1rem;
         }
@@ -185,7 +185,7 @@
 
         .feature-icon {
             font-size: 2.5rem;
-            color: var(--primary);
+            color: var(--secondary);
             margin-bottom: 1rem;
         }
 
@@ -231,7 +231,7 @@
         }
 
         .about-text h2 {
-            color: var(--primary-dark);
+            color: var(--primary);
             font-size: 2rem;
             margin-bottom: 1.5rem;
         }
@@ -265,13 +265,13 @@
         }
 
         .service-card:hover {
-            border-color: var(--primary);
+            border-color: var(--secondary);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
         }
 
         .service-icon {
             font-size: 2.5rem;
-            color: var(--secondary);
+            color: var(--accent);
             margin-bottom: 1rem;
         }
 
@@ -289,7 +289,7 @@
         /* CTA Section */
         .cta {
             padding: 4rem 2rem;
-            background: linear-gradient(135deg, var(--secondary) 0%, #2AA090 100%);
+            background: linear-gradient(135deg, var(--secondary) 0%, #0D9488 100%);
             color: white;
             text-align: center;
         }
@@ -339,7 +339,7 @@
         }
 
         .footer-section h3 {
-            color: var(--secondary);
+            color: var(--accent);
             margin-bottom: 1rem;
             font-size: 1.2rem;
         }
@@ -425,7 +425,7 @@
         .btn {
             display: inline-block;
             padding: 0.6rem 1.2rem;
-            background-color: var(--primary);
+            background-color: var(--secondary);
             color: white;
             border: none;
             border-radius: 0.25rem;
@@ -436,15 +436,15 @@
         }
 
         .btn:hover {
-            background-color: var(--primary-dark);
+            background-color: #0D9488;
         }
 
         .btn-secondary {
-            background-color: var(--secondary);
+            background-color: var(--accent);
         }
 
         .btn-secondary:hover {
-            background-color: #2ba896;
+            background-color: #D97706;
         }
 
         .btn-outline {
@@ -463,15 +463,13 @@
     </style>
 </head>
 <body>
-
-
     <!-- Main Content -->
     <main>
         <!-- Hero Section -->
         <section class="hero">
             <div class="hero-content">
-                <h1>Revolutionizing Healthcare Management</h1>
-                <p>The Integrated Medical Facilities Network (IMFN) connects hospitals, doctors, and patients through an innovative platform designed to streamline healthcare delivery and improve patient outcomes.</p>
+                <h1>Simplified Healthcare Tracking</h1>
+                <p>MediTrack connects patients, doctors, and healthcare facilities through an intuitive platform designed to streamline medical record management and improve patient care.</p>
                 <div class="hero-buttons">
                     <a href="{% url 'patient_register'%}" class="btn btn-lg">Get Started</a>
                     <a href="{%url 'login_page'%}" class="btn btn-outline btn-lg">Login</a>
@@ -482,24 +480,24 @@
         <!-- Features Section -->
         <section class="features">
             <div class="section-header">
-                <h2>Why Choose IMFN?</h2>
-                <p>Our platform offers advanced solutions to modern healthcare challenges</p>
+                <h2>Why Choose MediTrack?</h2>
+                <p>Our platform offers simple solutions to everyday healthcare challenges</p>
             </div>
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">🔄</div>
-                    <h3>Seamless Integration</h3>
-                    <p>Connect multiple hospitals and healthcare facilities under one unified system, ensuring smooth information flow and resource sharing.</p>
+                    <div class="feature-icon">📱</div>
+                    <h3>Easy Access</h3>
+                    <p>Access your medical records anytime, anywhere through our secure platform, ensuring you always have your health information at your fingertips.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">📊</div>
-                    <h3>Real-time Analytics</h3>
-                    <p>Access comprehensive dashboards and reports to make data-driven decisions and optimize healthcare delivery.</p>
+                    <div class="feature-icon">🔄</div>
+                    <h3>Seamless Integration</h3>
+                    <p>Connect with multiple Doctors, ensuring smooth information flow between you and your care team.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🛡️</div>
-                    <h3>Secure & Compliant</h3>
-                    <p>Built with state-of-the-art security measures and full compliance with healthcare regulations and privacy standards.</p>
+                    <h3>Secure & Private</h3>
+                    <p>Built with state-of-the-art security measures and full compliance with healthcare regulations to keep your sensitive medical data protected.</p>
                 </div>
             </div>
         </section>
@@ -508,13 +506,13 @@
         <section class="about">
             <div class="about-content">
                 <div class="about-text">
-                    <h2>About IMFN</h2>
-                    <p>The Integrated Medical Facilities Network (IMFN) is an innovative software solution designed to revolutionize healthcare management across multiple hospitals. This integrated platform leverages advanced technology to automate processes, improve communication, and enhance resource utilization.</p>
-                    <p>IMFN ensures streamlined workflows, enabling better patient care and efficient coordination among various stakeholders, including administrators, doctors, patients, and emergency services.</p>
-                    <a href="{% url 'about'%}" class="btn">Discover More</a>
+                    <h2>About MediTrack</h2>
+                    <p>MediTrack is an innovative healthcare management solution designed to simplify the way patients interact with their healthcare providers. Our platform leverages modern technology to streamline appointment scheduling, medical record access, and communication with your care team.</p>
+                    <p>With MediTrack, you can take control of your healthcare journey while enabling better coordination among doctors, specialists, and healthcare facilities you visit.</p>
+                    <a href="{% url 'about'%}" class="btn">Learn More</a>
                 </div>
                 <div class="about-image">
-                    <img src="{% static 'images/istockphoto-1346227626-612x612.jpg'%}" alt="Healthcare professionals using IMFN system">
+                    <img src="{% static 'images/istockphoto-1346227626-612x612.jpg'%}" alt="Patient using MediTrack on mobile device">
                 </div>
             </div>
         </section>
@@ -523,44 +521,34 @@
         <section class="services">
             <div class="section-header">
                 <h2>Our Services</h2>
-                <p>Comprehensive solutions for modern healthcare management</p>
+                <p>Simple solutions for better healthcare management</p>
             </div>
             <div class="services-grid">
                 <div class="service-card">
-                    <div class="service-icon">🏥</div>
-                    <h3>Hospital Management</h3>
-                    <p>Centralized dashboard for managing multiple facilities, staff, resources, and patient flow across the entire network.</p>
-
+                    <div class="service-icon">📋</div>
+                    <h3>Medical Records</h3>
+                    <p>Securely store and access your complete medical history, test results, prescriptions, and treatment plans in one convenient location.</p>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon">👨‍⚕️</div>
-                    <h3>Doctor Scheduling</h3>
-                    <p>Advanced scheduling system that optimizes doctor availability across facilities while preventing burnout and ensuring balanced workloads.</p>
-
+                    <div class="service-icon">🗓️</div>
+                    <h3>Appointment Scheduling</h3>
+                    <p>Easily book, reschedule, or cancel appointments with your healthcare providers and receive timely reminders.</p>
                 </div>
+            
                 <div class="service-card">
-                    <div class="service-icon">📱</div>
-                    <h3>Patient Portal</h3>
-                    <p>User-friendly interface for patients to book appointments, access medical records, and communicate with healthcare providers.</p>
-
+                    <div class="service-icon">💊</div>
+                    <h3>Medication Tracking</h3>
+                    <p>Keep track of your medications, dosages, and schedules with automated reminders to ensure you never miss a dose.</p>
                 </div>
                 <div class="service-card">
                     <div class="service-icon">🚑</div>
-                    <h3>Ambulance booking</h3>
-                    <p>Providing Ambulance Booking from nearby Hospitals and know the status</p>
-
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">💊</div>
-                    <h3>Pharmacy Integration</h3>
-                    <p>Seamless connection between prescriptions, inventory management, and medication dispensing across all network facilities.</p>
-
+                    <h3>Emergency Access</h3>
+                    <p>Provide emergency medical personnel with crucial health information when you need it most through our quick access feature.</p>
                 </div>
                 <div class="service-card">
                     <div class="service-icon">📊</div>
-                    <h3>Analytics & Reporting</h3>
-                    <p>Comprehensive data analysis tools providing insights into operational efficiency, patient outcomes, and resource allocation.</p>
-
+                    <h3>Health Insights</h3>
+                    <p>Monitor your health trends over time with simple visualizations and track progress toward your wellness goals.</p>
                 </div>
             </div>
         </section>
@@ -568,15 +556,12 @@
         <!-- CTA Section -->
         <section class="cta">
             <div class="cta-content">
-                <h2>Ready to Transform Your Healthcare Network?</h2>
-                <p>Join thousands of healthcare facilities already benefiting from our integrated platform. Get started today and experience the future of healthcare management.</p>
+                <h2>Take Control of Your Healthcare Journey</h2>
+                <p>Join thousands of patients already benefiting from our healthcare management platform. Get started today and experience a simpler way to manage your health.</p>
                 <a href="{% url 'patient_register'%}" class="btn btn-lg">Register Now</a>
             </div>
         </section>
     </main>
-
-    <!-- Footer -->
-
 
     <!-- JavaScript for Mobile Menu Toggle -->
     <script>

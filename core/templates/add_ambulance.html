@@ -6,77 +6,238 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Ambulance</title>
     <style>
+        /* Modern color palette and variables */
+        :root {
+            --primary: #005792; /* Blue */
+            --secondary: #00a8e8; /* Light blue */
+            --accent: #ff5a5f; /* Coral accent */
+            --success: #2ecc71; /* Green */
+            --light-gray: #f8f9fa;
+            --mid-gray: #e9ecef;
+            --dark-gray: #495057;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+    
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7fa;
             margin: 0;
-            padding: 20px;
+            padding: 30px;
+            color: var(--dark-gray);
+            line-height: 1.6;
         }
-
+    
         h2 {
-            color: #333;
+            color: var(--primary);
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            font-size: 28px;
+            position: relative;
+            padding-bottom: 15px;
         }
-
+    
+        h2::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--accent);
+            border-radius: 2px;
+        }
+    
+        /* Form styling */
         form {
             max-width: 600px;
-            margin: 0 auto;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+            margin: 0 auto 25px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
         }
-
+    
+        form::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+        }
+    
+        /* Form field styling */
         form p {
-            margin: 10px 0;
+            margin: 20px 0;
+            position: relative;
         }
-
+    
+        /* Style Django form labels */
+        form p label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 15px;
+        }
+    
+        /* Style Django form inputs */
+        form p input,
+        form p select,
+        form p textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--mid-gray);
+            border-radius: 6px;
+            font-size: 14px;
+            transition: var(--transition);
+            background-color: white;
+        }
+    
+        form p input:focus,
+        form p select:focus,
+        form p textarea:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(0, 168, 232, 0.2);
+            outline: none;
+        }
+    
+        form p textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+    
+        form p select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath fill='%23495057' d='M6 8L0 0h12L6 8z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            padding-right: 35px;
+        }
+    
+        /* Help text styling (if Django renders it) */
+        form p .helptext {
+            display: block;
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+    
+        /* Button styling */
         button[type="submit"] {
             display: block;
             width: 100%;
-            padding: 10px;
-            background-color: #28a745; /* Green for submit button */
+            padding: 14px;
+            background-color: var(--success);
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: var(--transition);
+            margin-top: 30px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 3px 6px rgba(46, 204, 113, 0.2);
         }
-
+    
         button[type="submit"]:hover {
-            background-color: #218838; /* Darker green on hover */
+            background-color: #27ae60;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(46, 204, 113, 0.3);
         }
-
+    
+        button[type="submit"]:active {
+            transform: translateY(0px);
+        }
+    
         .back-button {
             display: block;
             width: 200px;
             margin: 20px auto;
-            padding: 10px;
+            padding: 12px;
             text-align: center;
-            background-color: #007bff; /* Bootstrap primary color */
+            background-color: var(--primary);
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             text-decoration: none;
-            font-size: 16px;
-            transition: background-color 0.3s;
+            font-size: 15px;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 3px 6px rgba(0, 87, 146, 0.2);
         }
-
+    
         .back-button:hover {
-            background-color: #0056b3; /* Darker shade on hover */
+            background-color: #004675;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 87, 146, 0.3);
         }
-
+    
+        .back-button:active {
+            transform: translateY(0px);
+        }
+    
+        /* Error handling for Django form errors */
+        form p .errorlist {
+            list-style: none;
+            padding: 0;
+            margin: 5px 0;
+            color: var(--accent);
+            font-size: 13px;
+        }
+    
+        form p.has-error input,
+        form p.has-error select,
+        form p.has-error textarea {
+            border-color: var(--accent);
+        }
+    
+        /* Required fields (if needed) */
+        form p.required label:after {
+            content: " *";
+            color: var(--accent);
+        }
+    
+        /* Responsive adjustments */
         @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+    
             h2 {
                 font-size: 24px;
+                padding-bottom: 10px;
             }
-
+    
+            form {
+                padding: 20px;
+            }
+    
             button[type="submit"],
             .back-button {
                 width: 100%;
             }
+        }
+    
+        /* Hover effect for form fields */
+        form p input:hover,
+        form p select:hover,
+        form p textarea:hover {
+            border-color: #ced4da;
+        }
+    
+        /* Custom focus visible state for accessibility */
+        button:focus-visible,
+        a:focus-visible {
+            outline: 3px solid var(--secondary);
+            outline-offset: 2px;
         }
     </style>
 </head>

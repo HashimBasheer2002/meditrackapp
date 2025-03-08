@@ -528,11 +528,9 @@
 
             </ul>
 
-            <div class="menu-category">Administration</div>
+            <div class="menu-category"></div>
             <ul>
-                <li><a href="{% url 'view_affiliated_hospitals' %}"><i>🏥</i> Partnerships</a></li>
-                <li><a href="{% url 'send_resource_request' %}"><i>📦</i> Resources</a></li>
-
+              
             </ul>
         </div>
 
@@ -551,7 +549,7 @@
     <!-- Main Content Area -->
     <div class="main-content">
         <div class="dashboard-header">
-            <h1>🏥 Hospital Dashboard</h1>
+            <h1>🏥 MediTrack</h1>
             <p>Welcome to your comprehensive hospital management dashboard</p>
         </div>
 
@@ -574,11 +572,7 @@
                             👀 <span>View Hospital Doctors</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="{% url 'doctor_chats' %}" class="action-btn">
-                            💬 <span>Messages</span>
-                        </a>
-                    </li>
+                    
                 </ul>
             </div>
 
@@ -665,56 +659,8 @@
                 </ul>
             </div>
 
-            <!-- Hospital Affiliations Card -->
-            <div class="dashboard-card affiliations">
-                <div class="card-header">
-                    <div class="card-icon">🏥</div>
-                    <h2 class="card-title">Network & Partnerships</h2>
-                </div>
-                <ul class="action-list">
-                    <li>
-                        <a href="{% url 'send_affiliation_request' %}" class="action-btn">
-                            📨 <span>Initiate Partnership</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{% url 'manage_affiliation_requests' %}" class="action-btn">
-                            📜 <span>Affiliation Requests</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{% url 'view_affiliated_hospitals' %}" class="action-btn">
-                            🏥 <span>Partner Hospitals</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            
 
-            <!-- Resources & Supplies Card -->
-            <div class="dashboard-card resources">
-                <div class="card-header">
-                    <div class="card-icon">🏨</div>
-                    <h2 class="card-title">Supply Chain</h2>
-                </div>
-                <ul class="action-list">
-                    <li>
-                        <a href="{% url 'send_resource_request' %}" class="action-btn">
-                            📩 <span>Request Medical Supplies</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{% url 'received_resource_requests' %}" class="action-btn">
-                            📥 <span>Process Incoming Requests</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{% url 'view_resource_requests' %}" class="action-btn">
-                            📊 <span>Supply Request Status</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
 
         <!-- Patient Feedback Section -->
         <div class="feedback-section">
