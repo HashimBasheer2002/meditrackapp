@@ -332,25 +332,7 @@
             <h1 class="page-title">Admin Dashboard</h1>
         </div>
         
-        <div class="dashboard-card">
-            <h3 class="card-title">
-                <span class="card-title-icon">+</span>
-                Add Hospital
-            </h3>
-            <form method="POST" action="{% url 'hospital_register' %}">
-                {% csrf_token %}
-                {% for field in form %}
-                <div class="form-group">
-                    <label class="form-label">{{ field.label }}</label>
-
-                    {% if field.errors %}
-                    <span class="error">{{ field.errors }}</span>
-                    {% endif %}
-                </div>
-                {% endfor %}
-                <button type="submit" class="btn btn-primary">Register Hospital</button>
-            </form>
-        </div>
+        
         
         <div class="dashboard-card">
             <h3 class="card-title">
@@ -359,7 +341,7 @@
             </h3>
             <div class="button-group">
                 <a href="{% url 'hospital_list' %}" class="icon-btn">
-                    <span>🏥</span> View All Hospitals
+                    <span>🏥</span> View  Hospitals
                 </a>
                 <a href="{% url 'admin_view_all_patients' %}" class="icon-btn">
                     <span>🧑‍🤝‍🧑</span> View All Patients
